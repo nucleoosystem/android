@@ -104,7 +104,7 @@ public class UsersAndGroupsSearchProvider extends ContentProvider {
         if (getContext() == null) {
             return false;
         }
-        
+
         AUTHORITY = getContext().getResources().getString(R.string.users_and_groups_search_authority);
         ACTION_SHARE_WITH = getContext().getResources().getString(R.string.users_and_groups_share_with);
         DATA_USER = AUTHORITY + ".data.user";
@@ -124,7 +124,7 @@ public class UsersAndGroupsSearchProvider extends ContentProvider {
 
     /**
      * returns sharee from server
-     * 
+     *
      * Reference: http://developer.android.com/guide/topics/search/adding-custom-suggestions.html#CustomContentProvider
      *
      * @param uri           Content {@link Uri}, formatted as
