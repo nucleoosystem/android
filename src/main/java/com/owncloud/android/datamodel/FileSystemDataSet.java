@@ -22,7 +22,7 @@
  */
 package com.owncloud.android.datamodel;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

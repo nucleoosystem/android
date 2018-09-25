@@ -29,6 +29,8 @@ import android.view.inputmethod.EditorInfo;
 
 import com.owncloud.android.lib.resources.status.OCCapability;
 
+import androidx.appcompat.widget.SearchView;
+
 /**
  * Helper calls for visibility logic of the sharing fragment.
  */
