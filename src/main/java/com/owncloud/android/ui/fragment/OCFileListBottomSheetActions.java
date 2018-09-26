@@ -39,4 +39,9 @@ public interface OCFileListBottomSheetActions {
      * offers a file upload with the app file picker to the current folder.
      */
     void uploadFiles();
+
+    /**
+     * offers direct camera upload to the current folder.
+     */
+    void directCameraUpload();
 }
