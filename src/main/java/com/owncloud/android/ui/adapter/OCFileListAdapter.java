@@ -61,6 +61,7 @@ import com.owncloud.android.lib.resources.shares.ShareType;
 import com.owncloud.android.operations.RefreshFolderOperation;
 import com.owncloud.android.operations.RemoteOperationFailedException;
 import com.owncloud.android.services.OperationsService;
+import com.owncloud.android.ui.TextDrawable;
 import com.owncloud.android.ui.activity.ComponentsGetter;
 import com.owncloud.android.ui.fragment.ExtendedListFragment;
 import com.owncloud.android.ui.interfaces.OCFileListFragmentInterface;
@@ -71,6 +72,7 @@ import com.owncloud.android.utils.MimeTypeUtil;
 import com.owncloud.android.utils.ThemeUtils;
 
 import java.io.File;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -187,6 +189,26 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         });
     }
 
+    public void refreshCommentsCount(String fileId) {
+        int filesSize = mFiles.size();
+        for (int i = 0; i < filesSize; i++) {
+            if (mFiles.get(i).getRemoteId().equals(fileId)) {
+                mFiles.get(i).setUnreadCommentsCount(0);
+                break;
+            }
+        }
+
+        filesSize = mFilesAll.size();
+        for (int i = 0; i < filesSize; i++) {
+            if (mFilesAll.get(i).getRemoteId().equals(fileId)) {
+                mFilesAll.get(i).setUnreadCommentsCount(0);
+                break;
+            }
+        }
+
+        new Handler(Looper.getMainLooper()).post(this::notifyDataSetChanged);
+    }
+
     public void setEncryptionAttributeForItemID(String fileId, boolean encrypted) {
         int filesSize = mFiles.size();
         for (int i = 0; i < filesSize; i++) {
@@ -288,6 +310,30 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             if (holder instanceof OCFileListItemViewHolder) {
                 OCFileListItemViewHolder itemViewHolder = (OCFileListItemViewHolder) holder;
+
+                if (!TextUtils.isEmpty(file.getOwnerId()) && !mAccount.name.split("@")[0].equals(file.getOwnerId())) {
+                    try {
+                        itemViewHolder.sharedAvatar.setImageDrawable(
+                                TextDrawable.createAvatarWithUserId(file.getOwnerDisplayName(),
+                                        mContext.getResources().getDimension(R.dimen.list_item_avatar_icon_radius)));
+                        itemViewHolder.sharedAvatar.setVisibility(View.VISIBLE);
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    }
+
+                    itemViewHolder.sharedAvatar.setOnClickListener(view ->
+                            ocFileListFragmentInterface.showShareDetailView(file));
+                } else {
+                    itemViewHolder.sharedAvatar.setVisibility(View.GONE);
+                }
+
+                if (file.getUnreadCommentsCount() > 0) {
+                    itemViewHolder.unreadComments.setVisibility(View.VISIBLE);
+                    itemViewHolder.unreadComments.setOnClickListener(view ->
+                            ocFileListFragmentInterface.showActivityDetailView(file));
+                } else {
+                    itemViewHolder.unreadComments.setVisibility(View.GONE);
+                }
 
                 if (onlyOnDevice) {
                     File localFile = new File(file.getStoragePath());
@@ -501,12 +547,12 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             sharedIconView.setImageResource(R.drawable.ic_unshared);
             sharedIconView.setContentDescription(mContext.getString(R.string.shared_icon_share));
         }
-        sharedIconView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ocFileListFragmentInterface.onShareIconClick(file);
-            }
-        });
+
+        if (!TextUtils.isEmpty(file.getOwnerId()) && !mAccount.name.split("@")[0].equals(file.getOwnerId())) { // TODO refactor
+            sharedIconView.setOnClickListener(view -> ocFileListFragmentInterface.showShareDetailView(file));
+        } else {
+            sharedIconView.setOnClickListener(view -> ocFileListFragmentInterface.onShareIconClick(file));
+        }
     }
 
     /**
@@ -814,6 +860,8 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private final TextView fileSize;
         private final TextView lastModification;
         private final ImageView overflowMenu;
+        private final ImageView sharedAvatar;
+        private final ImageView unreadComments;
 
         private OCFileListItemViewHolder(View itemView) {
             super(itemView);
@@ -821,6 +869,8 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             fileSize = itemView.findViewById(R.id.file_size);
             lastModification = itemView.findViewById(R.id.last_mod);
             overflowMenu = itemView.findViewById(R.id.overflow_menu);
+            sharedAvatar = itemView.findViewById(R.id.sharedAvatar);
+            unreadComments = itemView.findViewById(R.id.unreadComments);
         }
     }
 

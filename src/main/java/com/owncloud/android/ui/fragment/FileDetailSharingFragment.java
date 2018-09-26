@@ -112,6 +112,18 @@ public class FileDetailSharingFragment extends Fragment implements UserListAdapt
     @BindView(R.id.share_by_link_container)
     LinearLayout shareByLinkContainer;
 
+    @BindView(R.id.shared_with_you_container)
+    LinearLayout sharedWithYouContainer;
+
+    @BindView(R.id.shared_with_you_avatar)
+    ImageView sharedWithYouAvatar;
+
+    @BindView(R.id.shared_with_you_username)
+    TextView sharedWithYouUsername;
+
+    @BindView(R.id.shared_with_you_note)
+    TextView sharedWithYouNote;
+
     private FileOperationsHelper fileOperationsHelper;
     private FileDisplayActivity fileDisplayActivity;
     private FileDataStorageManager fileDataStorageManager;
@@ -194,6 +206,7 @@ public class FileDetailSharingFragment extends Fragment implements UserListAdapt
     private void setupView() {
         setShareByLinkInfo(file.isSharedViaLink());
         setShareWithUserInfo();
+        setShareWithYou();
         FileDetailSharingFragmentHelper.setupSearchView(
             (SearchManager) fileDisplayActivity.getSystemService(Context.SEARCH_SERVICE), searchView,
             fileDisplayActivity.getComponentName());
@@ -240,6 +253,10 @@ public class FileDetailSharingFragment extends Fragment implements UserListAdapt
 
         // Update list of users/groups
         updateListOfUserGroups();
+    }
+
+    private void setShareWithYou() {
+
     }
 
     private void updateListOfUserGroups() {

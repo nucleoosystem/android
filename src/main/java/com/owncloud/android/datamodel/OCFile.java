@@ -45,6 +45,20 @@ import lombok.Setter;
 import third_parties.daveKoeller.AlphanumComparator;
 
 public class OCFile implements Parcelable, Comparable<OCFile>, ServerFileInterface {
+
+    public static final Parcelable.Creator<OCFile> CREATOR = new Parcelable.Creator<OCFile>() {
+
+        @Override
+        public OCFile createFromParcel(Parcel source) {
+            return new OCFile(source);
+        }
+
+        @Override
+        public OCFile[] newArray(int size) {
+            return new OCFile[size];
+        }
+    };
+
     private final static String PERMISSION_SHARED_WITH_ME = "S";
     private final static String PERMISSION_CAN_RESHARE = "R";
     private final static String PERMISSION_CAN_WRITE = "CK";
@@ -74,29 +88,22 @@ public class OCFile implements Parcelable, Comparable<OCFile>, ServerFileInterfa
     @Getter @Setter private long lastSyncDateForData;
     @Getter @Setter private boolean availableOffline;
     private boolean mHasPreview;
-
     @Getter private String etag;
-
     @Getter @Setter private boolean sharedViaLink;
     @Getter @Setter private String publicLink;
-
     @Getter @Setter private String permissions;
     /** The fileid namespaced by the instance fileId, globally unique */
     @Getter @Setter private String remoteId;
-
     @Getter @Setter private boolean updateThumbnailNeeded;
-
     @Getter @Setter private boolean downloading;
-
     @Getter @Setter private String etagInConflict;    // Save file etag in the server, when there is a conflict. No conflict =  null
-
     @Getter @Setter private boolean sharedWithSharee;
-
     @Getter @Setter private boolean favorite;
-
     @Getter @Setter private boolean encrypted;
-
     @Getter @Setter private WebdavEntry.MountType mountType;
+    private String ownerId;
+    private String ownerDisplayName;
+    private int unreadCommentsCount;
 
     /**
      * URI to the local path of the file contents, if stored in the device; cached after first call
@@ -523,6 +530,30 @@ public class OCFile implements Parcelable, Comparable<OCFile>, ServerFileInterfa
         this.mHasPreview = hasPreview;
     }
 
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getOwnerDisplayName() {
+        return ownerDisplayName;
+    }
+
+    public void setOwnerDisplayName(String ownerDisplayName) {
+        this.ownerDisplayName = ownerDisplayName;
+    }
+
+    public int getUnreadCommentsCount() {
+        return unreadCommentsCount;
+    }
+
+    public void setUnreadCommentsCount(int unreadCommentsCount) {
+        this.unreadCommentsCount = unreadCommentsCount;
+    }
+
     public static final Parcelable.Creator<OCFile> CREATOR = new Parcelable.Creator<OCFile>() {
 
         @Override
@@ -535,4 +566,5 @@ public class OCFile implements Parcelable, Comparable<OCFile>, ServerFileInterfa
             return new OCFile[size];
         }
     };
+
 }

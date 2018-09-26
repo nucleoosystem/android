@@ -57,6 +57,7 @@ import com.owncloud.android.lib.common.utils.Log_OC;
 import com.owncloud.android.lib.resources.activities.GetRemoteActivitiesOperation;
 import com.owncloud.android.lib.resources.activities.models.RichObject;
 import com.owncloud.android.lib.resources.files.FileVersion;
+import com.owncloud.android.lib.resources.files.MarkCommentsAsReadOperation;
 import com.owncloud.android.lib.resources.files.ReadFileVersionsOperation;
 import com.owncloud.android.lib.resources.status.OCCapability;
 import com.owncloud.android.lib.resources.status.OwnCloudVersion;
@@ -64,12 +65,14 @@ import com.owncloud.android.operations.CommentFileOperation;
 import com.owncloud.android.ui.activity.ComponentsGetter;
 import com.owncloud.android.ui.activity.FileActivity;
 import com.owncloud.android.ui.adapter.ActivityAndVersionListAdapter;
+import com.owncloud.android.ui.events.CommentsEvent;
 import com.owncloud.android.ui.helpers.FileOperationsHelper;
 import com.owncloud.android.ui.interfaces.ActivityListInterface;
 import com.owncloud.android.ui.interfaces.VersionListInterface;
 import com.owncloud.android.utils.ThemeUtils;
 
 import org.apache.commons.httpclient.HttpStatus;
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -352,6 +355,19 @@ public class FileDetailActivitiesFragment extends Fragment implements ActivityLi
         });
 
         t.start();
+    }
+
+    public void markCommentsAsRead() {
+        new Thread(() -> {
+            if (file.getUnreadCommentsCount() > 0) {
+                MarkCommentsAsReadOperation unreadOperation = new MarkCommentsAsReadOperation(file.getLocalId());
+                RemoteOperationResult remoteOperationResult = unreadOperation.execute(ownCloudClient);
+
+                if (remoteOperationResult.isSuccess()) {
+                    EventBus.getDefault().post(new CommentsEvent(file.getRemoteId()));
+                }
+            }
+        }).start();
     }
 
     private void populateList(List<Object> activities, boolean clear) {
