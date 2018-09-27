@@ -53,8 +53,8 @@
 
             <ImageView
                 android:id="@+id/shared_with_you_avatar"
-                android:layout_width="@dimen/list_item_avatar_icon_margin"
-                android:layout_height="@dimen/list_item_avatar_icon_margin"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:contentDescription="@string/avatar"
                 app:srcCompat="@drawable/ic_user"/>
 

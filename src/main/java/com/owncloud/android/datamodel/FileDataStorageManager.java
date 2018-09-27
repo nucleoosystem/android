@@ -218,6 +218,8 @@ public class FileDataStorageManager {
         cv.put(ProviderTableMeta.FILE_UPDATE_THUMBNAIL, file.needsUpdateThumbnail());
         cv.put(ProviderTableMeta.FILE_IS_DOWNLOADING, file.isDownloading());
         cv.put(ProviderTableMeta.FILE_ETAG_IN_CONFLICT, file.getEtagInConflict());
+        cv.put(ProviderTableMeta.FILE_OWNER_ID, file.getOwnerId());
+        cv.put(ProviderTableMeta.FILE_OWNER_DISPLAY_NAME, file.getOwnerDisplayName());
 
         boolean sameRemotePath = fileExists(file.getRemotePath());
         if (sameRemotePath ||
@@ -457,6 +459,9 @@ public class FileDataStorageManager {
         cv.put(ProviderTableMeta.FILE_REMOTE_ID, folder.getRemoteId());
         cv.put(ProviderTableMeta.FILE_FAVORITE, folder.isFavorite());
         cv.put(ProviderTableMeta.FILE_IS_ENCRYPTED, folder.isEncrypted());
+        cv.put(ProviderTableMeta.FILE_OWNER_ID, folder.getOwnerId());
+        cv.put(ProviderTableMeta.FILE_OWNER_DISPLAY_NAME, folder.getOwnerDisplayName());
+        
         return cv;
     }
 
@@ -490,6 +495,9 @@ public class FileDataStorageManager {
         cv.put(ProviderTableMeta.FILE_FAVORITE, file.isFavorite());
         cv.put(ProviderTableMeta.FILE_IS_ENCRYPTED, file.isEncrypted());
         cv.put(ProviderTableMeta.FILE_MOUNT_TYPE, file.getMountType().ordinal());
+        cv.put(ProviderTableMeta.FILE_OWNER_ID, file.getOwnerId());
+        cv.put(ProviderTableMeta.FILE_OWNER_DISPLAY_NAME, file.getOwnerDisplayName());
+        
         return cv;
     }
 
@@ -983,7 +991,10 @@ public class FileDataStorageManager {
             }
             file.setMountType(WebdavEntry.MountType.values()[c.getInt(
                     c.getColumnIndex(ProviderTableMeta.FILE_MOUNT_TYPE))]);
+            file.setOwnerId(c.getString(c.getColumnIndex(ProviderTableMeta.FILE_OWNER_ID)));
+            file.setOwnerDisplayName(c.getString(c.getColumnIndex(ProviderTableMeta.FILE_OWNER_DISPLAY_NAME)));
         }
+        
         return file;
     }
 

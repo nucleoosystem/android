@@ -748,7 +748,9 @@ public class FileContentProvider extends ContentProvider {
                 + ProviderTableMeta.FILE_IS_ENCRYPTED + INTEGER // boolean
                 + ProviderTableMeta.FILE_ETAG_IN_CONFLICT + TEXT
                 + ProviderTableMeta.FILE_SHARED_WITH_SHAREE + INTEGER
-                + ProviderTableMeta.FILE_MOUNT_TYPE + " INTEGER);"
+                + ProviderTableMeta.FILE_MOUNT_TYPE + INTEGER
+                + ProviderTableMeta.FILE_OWNER_ID + TEXT
+                + ProviderTableMeta.FILE_OWNER_DISPLAY_NAME + " TEXT);"
         );
     }
 
@@ -1753,6 +1755,26 @@ public class FileContentProvider extends ContentProvider {
                 try {
                     db.execSQL(ALTER_TABLE + ProviderTableMeta.OCSHARES_TABLE_NAME +
                             ADD_COLUMN + ProviderTableMeta.OCSHARES_NOTE + " TEXT ");
+
+                    upgraded = true;
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+            }
+
+            if (!upgraded) {
+                Log_OC.i(SQL, String.format(Locale.ENGLISH, UPGRADE_VERSION_MSG, oldVersion, newVersion));
+            }
+
+            if (oldVersion < 36 && newVersion >= 36) {
+                Log_OC.i(SQL, "Entering in the #36 add ownerId to flie table");
+                db.beginTransaction();
+                try {
+                    db.execSQL(ALTER_TABLE + ProviderTableMeta.FILE_TABLE_NAME +
+                            ADD_COLUMN + ProviderTableMeta.FILE_OWNER_ID + " TEXT ");
+                    db.execSQL(ALTER_TABLE + ProviderTableMeta.FILE_TABLE_NAME +
+                            ADD_COLUMN + ProviderTableMeta.FILE_OWNER_DISPLAY_NAME + " TEXT ");
 
                     upgraded = true;
                     db.setTransactionSuccessful();

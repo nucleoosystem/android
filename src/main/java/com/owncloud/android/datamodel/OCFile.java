@@ -57,7 +57,7 @@ public class OCFile implements Parcelable, Comparable<OCFile>, ServerFileInterfa
         }
     };
 
-    private final static String PERMISSION_SHARED_WITH_ME = "S";    // TODO move to better location
+    private final static String PERMISSION_SHARED_WITH_ME = "S";
     private final static String PERMISSION_CAN_RESHARE = "R";
     private final static String PERMISSION_CAN_WRITE = "CK"; 
 
@@ -79,28 +79,20 @@ public class OCFile implements Parcelable, Comparable<OCFile>, ServerFileInterfa
     private long mLastSyncDateForProperties;
     private long mLastSyncDateForData;
     private boolean mAvailableOffline;
-
     private String mEtag;
-
     private boolean mShareByLink;
     private String mPublicLink;
-
     private String mPermissions;
     private String mRemoteId;
-
     private boolean mNeedsUpdateThumbnail;
-
     private boolean mIsDownloading;
-
     private String mEtagInConflict;    // Save file etag in the server, when there is a conflict. No conflict =  null
-
     private boolean mShareWithSharee;
-
     private boolean mIsFavorite;
-
     private boolean mIsEncrypted;
-
     private WebdavEntry.MountType mMountType;
+    private String ownerId;
+    private String ownerDisplayName;
 
     /**
      * URI to the local path of the file contents, if stored in the device; cached after first call
@@ -796,5 +788,21 @@ public class OCFile implements Parcelable, Comparable<OCFile>, ServerFileInterfa
 
     public void setMountType(WebdavEntry.MountType mountType) {
         mMountType = mountType;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getOwnerDisplayName() {
+        return ownerDisplayName;
+    }
+
+    public void setOwnerDisplayName(String ownerDisplayName) {
+        this.ownerDisplayName = ownerDisplayName;
     }
 }
