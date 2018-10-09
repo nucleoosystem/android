@@ -70,7 +70,7 @@
                     android:paddingLeft="@dimen/standard_padding"
                     android:paddingTop="@dimen/standard_half_padding"
                     android:paddingRight="@dimen/standard_padding"
-                    android:text="Shared with you by s$1"
+                    android:text="@string/shared_with_you_by"
                     android:textSize="16sp"/>
 
                 <TextView

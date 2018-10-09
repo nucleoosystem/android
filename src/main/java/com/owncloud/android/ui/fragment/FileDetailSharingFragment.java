@@ -49,10 +49,12 @@ import com.owncloud.android.R;
 import com.owncloud.android.datamodel.FileDataStorageManager;
 import com.owncloud.android.datamodel.OCFile;
 import com.owncloud.android.lib.common.operations.RemoteOperationResult;
+import com.owncloud.android.lib.common.utils.Log_OC;
 import com.owncloud.android.lib.resources.shares.OCShare;
 import com.owncloud.android.lib.resources.shares.SharePermissionsBuilder;
 import com.owncloud.android.lib.resources.shares.ShareType;
 import com.owncloud.android.lib.resources.status.OCCapability;
+import com.owncloud.android.ui.TextDrawable;
 import com.owncloud.android.ui.activity.FileActivity;
 import com.owncloud.android.ui.activity.FileDisplayActivity;
 import com.owncloud.android.ui.adapter.UserListAdapter;
@@ -65,6 +67,7 @@ import com.owncloud.android.ui.fragment.util.SharingMenuHelper;
 import com.owncloud.android.utils.ClipboardUtil;
 import com.owncloud.android.utils.ThemeUtils;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -76,6 +79,7 @@ public class FileDetailSharingFragment extends Fragment implements UserListAdapt
 
     private static final String ARG_FILE = "FILE";
     private static final String ARG_ACCOUNT = "ACCOUNT";
+    private static final String TAG = FileDetailSharingFragment.class.getSimpleName();
 
     // to show share with users/groups info
     private List<OCShare> shares;
@@ -232,7 +236,21 @@ public class FileDetailSharingFragment extends Fragment implements UserListAdapt
     }
 
     private void setShareWithYou() {
+        if (!TextUtils.isEmpty(file.getOwnerId()) && !account.name.split("@")[0].equals(file.getOwnerId())) {
+            sharedWithYouUsername.setText(
+                    String.format(getString(R.string.shared_with_you_by), file.getOwnerDisplayName()));
 
+            try {
+                sharedWithYouAvatar.setImageDrawable(
+                        TextDrawable.createAvatarWithUserId(file.getOwnerDisplayName(),
+                                getResources().getDimension(R.dimen.list_item_avatar_icon_radius)));
+                sharedWithYouAvatar.setVisibility(View.VISIBLE);
+            } catch (NoSuchAlgorithmException e) {
+                Log_OC.d(TAG, "Avatar generation failed", e);
+            }
+        } else {
+            sharedWithYouContainer.setVisibility(View.GONE);
+        }
     }
 
     private void updateListOfUserGroups() {
@@ -490,7 +508,7 @@ public class FileDetailSharingFragment extends Fragment implements UserListAdapt
 
     /**
      * Get known server capabilities from DB
-     * 
+     *
      * Depends on the parent Activity provides a {@link com.owncloud.android.datamodel.FileDataStorageManager}
      * instance ready to use. If not ready, does nothing.
      */
@@ -502,9 +520,9 @@ public class FileDetailSharingFragment extends Fragment implements UserListAdapt
 
     /**
      * Get public link from the DB to fill in the "Share link" section in the UI.
-     * 
+     *
      * Takes into account server capabilities before reading database.
-     * 
+     *
      * Depends on the parent Activity provides a {@link com.owncloud.android.datamodel.FileDataStorageManager}
      * instance ready to use. If not ready, does nothing.
      */
