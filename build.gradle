@@ -16,9 +16,9 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath 'org.codehaus.groovy:groovy-all:2.4.12' 
-        classpath('com.dicedmelon.gradle:jacoco-android:0.1.3') { 
-            exclude group: 'org.codehaus.groovy', module: 'groovy-all' 
+        classpath 'org.codehaus.groovy:groovy-all:2.4.12'
+        classpath('com.dicedmelon.gradle:jacoco-android:0.1.3') {
+            exclude group: 'org.codehaus.groovy', module: 'groovy-all'
         }
     }
 }
@@ -212,9 +212,9 @@ dependencies {
     // dependencies for app building
     implementation 'com.android.support:multidex:1.0.3'
 //    implementation project('nextcloud-android-library')
-    genericImplementation "com.github.nextcloud:android-library:master-SNAPSHOT"
-    gplayImplementation "com.github.nextcloud:android-library:master-SNAPSHOT"
-    versionDevImplementation 'com.github.nextcloud:android-library:master-SNAPSHOT' // use always latest master
+    genericImplementation "com.github.nextcloud:android-library:activity-previews-SNAPSHOT"
+    gplayImplementation "com.github.nextcloud:android-library:activity-previews-SNAPSHOT"
+    versionDevImplementation 'com.github.nextcloud:android-library:activity-previews-SNAPSHOT' // use always latest master
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation "com.android.support:support-v4:${supportLibraryVersion}"
     implementation "com.android.support:design:${supportLibraryVersion}"
@@ -268,7 +268,7 @@ dependencies {
 
     findbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.8.0'
     findbugsPlugins 'com.mebigfatguy.fb-contrib:fb-contrib:7.4.3'
-    
+
 //    jacocoAnt "org.jacoco:org.jacoco.ant:${jacocoVersion}"
 //    jacocoAgent "org.jacoco:org.jacoco.agent:${jacocoVersion}"
 //    androidJacocoAgent "org.jacoco:org.jacoco.agent:${jacocoVersion}"

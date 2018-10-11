@@ -34,7 +34,7 @@ public class ActivityAndVersionListAdapter extends ActivityListAdapter {
     public ActivityAndVersionListAdapter(Context context, ActivityListInterface activityListInterface,
                                          VersionListInterface.View versionListInterface,
                                          FileDataStorageManager storageManager) {
-        super(context, activityListInterface, storageManager, true);
+        super(context, activityListInterface, true);
 
         this.versionListInterface = versionListInterface;
     }
