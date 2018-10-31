@@ -648,7 +648,7 @@ class ContactListAdapter extends RecyclerView.Adapter<ContactListFragment.Contac
                             )
                     );
                 } catch (Exception e) {
-                    holder.getBadge().setImageResource(R.drawable.user);
+                    holder.getBadge().setImageResource(R.drawable.ic_user);
                 }
             }
 
@@ -679,7 +679,7 @@ class ContactListAdapter extends RecyclerView.Adapter<ContactListFragment.Contac
                     imageView.setImageDrawable(errorDrawable);
                 }
             };
-            DisplayUtils.downloadIcon(context, url, target, R.drawable.user, imageView.getWidth(),
+            DisplayUtils.downloadIcon(context, url, target, R.drawable.ic_user, imageView.getWidth(),
                     imageView.getHeight());
         }
     }
@@ -706,9 +706,7 @@ class ContactListAdapter extends RecyclerView.Adapter<ContactListFragment.Contac
                         .setColorFilter(ThemeUtils.primaryAccentColor(context), PorterDuff.Mode.SRC_ATOP);
             }
 
-            if (!checkedVCards.contains(verifiedPosition)) {
-                checkedVCards.add(verifiedPosition);
-            }
+            checkedVCards.add(verifiedPosition);
             if (checkedVCards.size() == SINGLE_SELECTION) {
                 EventBus.getDefault().post(new VCardToggleEvent(true));
             }
@@ -717,9 +715,7 @@ class ContactListAdapter extends RecyclerView.Adapter<ContactListFragment.Contac
                 holder.getName().getCheckMarkDrawable().clearColorFilter();
             }
 
-            if (checkedVCards.contains(verifiedPosition)) {
-                checkedVCards.remove(verifiedPosition);
-            }
+            checkedVCards.remove(verifiedPosition);
 
             if (checkedVCards.isEmpty()) {
                 EventBus.getDefault().post(new VCardToggleEvent(false));

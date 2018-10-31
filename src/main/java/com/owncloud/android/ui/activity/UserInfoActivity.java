@@ -109,7 +109,7 @@ public class UserInfoActivity extends FileActivity {
     @BindView(R.id.userinfo_username_full) protected TextView fullName;
     @BindView(R.id.user_info_list) protected RecyclerView mUserInfoList;
     @BindView(R.id.empty_list_progress) protected ProgressBar multiListProgressBar;
-    
+
     @BindString(R.string.user_information_retrieval_error) protected String sorryMessage;
 
     private float mCurrentAccountAvatarRadiusDimension;
@@ -267,12 +267,12 @@ public class UserInfoActivity extends FileActivity {
         if (!TextUtils.isEmpty(userInfo.getDisplayName())) {
             fullName.setText(userInfo.getDisplayName());
         }
-        
+
         if (userInfo.getPhone() == null && userInfo.getEmail() == null && userInfo.getAddress() == null
                 && userInfo.getTwitter() == null && userInfo.getWebsite() == null) {
 
             setErrorMessageForMultiList(getString(R.string.userinfo_no_info_headline),
-                    getString(R.string.userinfo_no_info_text), R.drawable.user);
+                getString(R.string.userinfo_no_info_text), R.drawable.ic_user);
         } else {
             emptyContentContainer.setVisibility(View.GONE);
             userInfoView.setVisibility(View.VISIBLE);
