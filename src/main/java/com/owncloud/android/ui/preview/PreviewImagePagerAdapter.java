@@ -40,10 +40,10 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.support.annotation.NonNull;
 
 /**
  * Adapter class that provides Fragment instances

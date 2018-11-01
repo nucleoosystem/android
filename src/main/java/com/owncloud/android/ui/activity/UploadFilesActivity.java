@@ -71,8 +71,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import static com.owncloud.android.db.PreferenceManager.getSortOrder;
-
 
 /**
  * Displays local files and let the user choose what of them wants to upload

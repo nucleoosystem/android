@@ -116,11 +116,9 @@ import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
-import static com.owncloud.android.db.PreferenceManager.getSortOrder;
-
 
 /**
- * This can be used to upload things to an ownCloud instance.
+ * This can be used to upload things to an Nextcloud instance.
  */
 public class ReceiveExternalFilesActivity extends FileActivity
         implements OnItemClickListener, View.OnClickListener, CopyAndUploadContentUrisTask.OnCopyTmpFilesTaskListener,
