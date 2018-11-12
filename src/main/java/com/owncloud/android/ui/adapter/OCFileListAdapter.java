@@ -318,7 +318,7 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                         mContext.getResources().getDimension(R.dimen.list_item_avatar_icon_radius)));
                         itemViewHolder.sharedAvatar.setVisibility(View.VISIBLE);
                     } catch (NoSuchAlgorithmException e) {
-                        e.printStackTrace();
+                        Log_OC.e(this, "Error creating shared avatar", e);
                     }
 
                     itemViewHolder.sharedAvatar.setOnClickListener(view ->
